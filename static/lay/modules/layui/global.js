@@ -613,6 +613,15 @@ layui.define(['code', 'element', 'table', 'util', 'carousel', 'laytpl'], functio
         focusInsert.call(this, '  ');
       }
     });
+      //WHY工作室Serverless修改部分 begin
+    if($('#LAY_demoForm')[0]){
+      $('#LAY_demoForm')[0].submit=function(e){
+          let doc = document.getElementById("LAY_demo").contentWindow.document;
+          doc.write(codeHtmls);
+          doc.close();
+      }
+  }
+      //WHY工作室Serverless修改部分 end
   
     var editor = $('#LAY_editor')
     ,iframeElem = $('#LAY_demo')
@@ -621,13 +630,15 @@ layui.define(['code', 'element', 'table', 'util', 'carousel', 'laytpl'], functio
     ,runCodes = function(){
       if(!iframeElem[0]) return;
       var html = editor.val();
-  
-      html = html.replace(/=/gi,"layequalsign");
-      html = html.replace(/script/gi,"layscrlayipttag");
+
+      //WHY工作室Serverless修改部分 begin
+      // html = html.replace(/=/gi,"layequalsign");
+      // html = html.replace(/script/gi,"layscrlayipttag");
       demoCodes.value = html.length > 100*1000 ? '<h1>卧槽，你的代码过长</h1>' : html;
   
-      // demoForm.action = '/api/runHtml/';
-        demoForm.innorHTML = html;
+      demoForm.action = '/api/runHtml/';
+      codeHtmls=html;
+      //WHY工作室Serverless修改部分 end
       demoForm.submit();
   
     };
